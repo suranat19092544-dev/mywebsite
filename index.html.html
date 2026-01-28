@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<title>เช็คชื่อ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@300;400;500;600&display=swap');
+
+body {
+  margin: 0;
+  font-family: 'Prompt', sans-serif;
+  background: url('https://images.unsplash.com/photo-1606761561373-0c7f0a2e93b2?auto=format&fit=crop&w=1470&q=80') no-repeat center center fixed;
+  background-size: cover;
+  color: #ffffff;
+}
+
+#app::before {
+  content: '';
+  position: fixed;
+  top:0; left:0; right:0; bottom:0;
+  background: rgba(0,0,0,0.6);
+  z-index: -1;
+}
+
+.container {
+  display: flex;
+  gap: 40px;
+  padding: 40px;
+  min-height: 100vh;
+  justify-content: center;
+}
+
+.box {
+  width: 450px;
+  max-height: 100vh;
+  overflow-y: auto;
+  background: rgba(50,50,50,0.95);
+  border-radius: 14px;
+  padding: 28px 32px;
+  box-shadow: 0 12px 30px rgba(0,0,0,0.35);
+}
+
+.box h2 { margin: 0 0 10px; font-weight: 600; }
+h3 { margin: 0 0 14px; font-weight: 500; }
+
+label {
+  display: block;
+  padding: 8px 10px;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+label:hover { background: rgba(255,255,255,0.08); }
+
+input[type="checkbox"] {
+  transform: scale(1.2);
+  margin-right: 8px;
+  accent-color: #ff4d4d;
+}
+
+label.checked {
+  background: #ff4d4d !important;
+  color: #ffffff !important;
+  font-weight: 700;
+}
+
+button {
+  background: #333333;
+  color: #ff4d4d;
+  border: 1px solid #ff4d4d;
+  border-radius: 6px;
+  padding: 6px 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover { background: #4d4d4d; }
+
+#list {
+  background: rgba(80,80,80,0.3);
+  border: 2px solid #ff4d4d;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+.hud-item {
+  font-size: 15px;
+  padding: 8px 6px;
+  font-weight: 600;
+  border-bottom: 1px dashed rgba(255,255,255,0.25);
+}
+.hud-item:last-child { border-bottom: none; }
+
+p { margin-top: 14px; font-weight: 500; color: #d6d6eb; }
+
+.history-item {
+  padding: 6px 8px;
+  margin-bottom: 6px;
+  background: rgba(80,80,80,0.3);
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 13px;
+  color: #ffffff;
+}
+.history-item:hover { background: rgba(255,77,77,0.5); }
+
+.history-controls {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+  margin-bottom: 6px;
+}
+
+input#search {
+  width: 100%;
+  padding: 8px;
+  margin-bottom: 12px;
+  border-radius: 6px;
+  border: 1px solid #ff4d4d;
+  background: #333333;
+  color: #ffffff;
+  font-size: 16px;
+}
+.container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  padding: 20px;
+  justify-content: center;
+  min-height: 100vh;
+}
+
+/* กล่อง */
+.box {
+  width: 420px;                /* ความกว้างกล่อง */
+  height: 1000px;               /* สูงพอดีกับ 35 ชื่อ */
+  background: rgba(50,50,50,0.95);
+  border-radius: 12px;
+  padding: 27px 12px;          /* padding รอบกล่อง */
+  box-shadow: 0 15px 25px rgba(0,0,0,0.35);
+  overflow: visible;           /* ไม่ scroll */
+}
+
+
+/* รายชื่อทั้งหมด */
+label {
+  font-size: 1rem;   /* ฟอนต์เล็กลง */
+  padding: 0.2px 4px;    /* ช่องว่างเล็ก */
+  display: block;
+}
+
+.hud-item {
+  font-size: 1rem;
+  padding: 0.2px 4px;
+}
+
+/* ช่องค้นหา */
+input#search {
+  font-size: 0.75rem;
+  padding: 4px;
+}
+
+/* ปุ่ม */
+button {
+  font-size: 0.75rem;
+  padding: 3px 6px;
+}
+
+
+
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="container">
+
+    <!-- กล่องรายชื่อทั้งหมด -->
+    <div class="box">
+      <h2>รายชื่อทั้งหมด</h2>
+      <h3>
+        เช็คชื่อ
+        <button onclick="toggleAll()" id="toggleBtn">ติ๊กทั้งหมด</button>
+      </h3>
+
+      <input type="text" id="search" placeholder="ค้นหารายชื่อ..." onkeyup="filterNames()">
+
+      <!-- รายชื่อ 35 คน -->
+      <label><input type="checkbox" value="1 [ LEGACY ] MELLO B." onchange="update()">1 [ LEGACY ] MELLO B.</label>
+      <label><input type="checkbox" value="2 [ LEGACY ] Klaoz.P" onchange="update()">2 [ LEGACY ] Klaoz.P</label>
+      <label><input type="checkbox" value="3 [ LEGACY ] SOMWANG" onchange="update()">3 [ LEGACY ] SOMWANG</label>
+      <label><input type="checkbox" value="4 [ LEGACY ] Pierce Brosnan" onchange="update()">4 [ LEGACY ] Pierce Brosnan</label>
+      <label><input type="checkbox" value="5 [ LEGACY ] Fahsai Samu" onchange="update()">5 [ LEGACY ] Fahsai Samu</label>
+      <label><input type="checkbox" value="6 [ LEGACY ] CD" onchange="update()">6 [ LEGACY ] CD</label>
+      <label><input type="checkbox" value="7 [ LEGACY ] Wendy" onchange="update()">7 [ LEGACY ] Wendy</label>
+      <label><input type="checkbox" value="8 [ LEGACY ] Safezone" onchange="update()">8 [ LEGACY ] Safezone</label>
+      <label><input type="checkbox" value="9 [ LEGACY ] Morris Carter" onchange="update()">9 [ LEGACY ] Morris Carter</label>
+      <label><input type="checkbox" value="10 [ LEGACY ] Nona Pachinko" onchange="update()">10 [ LEGACY ] Nona Pachinko</label>
+      <label><input type="checkbox" value="11 [ LEGACY ] Lucas" onchange="update()">11 [ LEGACY ] Lucas</label>
+      <label><input type="checkbox" value="12 [ LEGACY ] Levi Anker" onchange="update()">12 [ LEGACY ] Levi Anker</label>
+      <label><input type="checkbox" value="13 [ LEGACY ] James Rollsroyec" onchange="update()">13 [ LEGACY ] James Rollsroyec</label>
+      <label><input type="checkbox" value="14 [ LEGACY ] Sky Yukimura" onchange="update()">14 [ LEGACY ] Sky Yukimura</label>
+      <label><input type="checkbox" value="15 [ LEGACY ] Mudeng" onchange="update()">15 [ LEGACY ] Mudeng</label>
+      <label><input type="checkbox" value="16 [ LEGACY ] Summer" onchange="update()">16 [ LEGACY ] Summer</label>
+      <label><input type="checkbox" value="17 [ LEGACY ] Kan Father" onchange="update()">17 [ LEGACY ] Kan Father</label>
+      <label><input type="checkbox" value="18 [ LEGACY ] Gotje" onchange="update()">18 [ LEGACY ] Gotje</label>
+      <label><input type="checkbox" value="19 [ LEGACY ] Tubpee" onchange="update()">19 [ LEGACY ] Tubpee</label>
+      <label><input type="checkbox" value="20 [ LEGACY ] Johnson" onchange="update()">20 [ LEGACY ] Johnson</label>
+      <label><input type="checkbox" value="21 [ LEGACY ] Matin" onchange="update()">21 [ LEGACY ] Matin</label>
+      <label><input type="checkbox" value="22 [ LEGACY ] Jigsaw" onchange="update()">22 [ LEGACY ] Jigsaw</label>
+      <label><input type="checkbox" value="23 [ LEGACY ] Sushi Sored" onchange="update()">23 [ LEGACY ] Sushi Sored</label>
+      <label><input type="checkbox" value="24 [ LEGACY ] Archer Everett" onchange="update()">24 [ LEGACY ] Archer Everett</label>
+      <label><input type="checkbox" value="25 [ LEGACY ] Lune miller" onchange="update()">25 [ LEGACY ] Lune miller</label>
+      <label><input type="checkbox" value="26 [ LEGACY ] Malee Mamarin" onchange="update()">26 [ LEGACY ] Malee Mamarin</label>
+      <label><input type="checkbox" value="27 [ LEGACY ] Hop kellerman" onchange="update()">27 [ LEGACY ] Hop kellerman</label>
+      <label><input type="checkbox" value="28 [ LEGACY ] Jesper" onchange="update()">28 [ LEGACY ] Jesper</label>
+      <label><input type="checkbox" value="29 [ LEGACY ] Malone" onchange="update()">29 [ LEGACY ] Malone</label>
+      <label><input type="checkbox" value="30 [ LEGACY ] Somporn" onchange="update()">30 [ LEGACY ] Somporn</label>
+      <label><input type="checkbox" value="31 [ LEGACY ] Kai Tanjiro" onchange="update()">31 [ LEGACY ] Kai Tanjiro</label>
+      <label><input type="checkbox" value="32 [ LEGACY ] Kew Rating" onchange="update()">32 [ LEGACY ] Kew Rating</label>
+      <label><input type="checkbox" value="33 [ LEGACY ] Fiw" onchange="update()">33 [ LEGACY ] Fiw</label>
+      <label><input type="checkbox" value="34 [ LEGACY ] Sun Holland" onchange="update()">34 [ LEGACY ] Sun Holland</label>
+      <label><input type="checkbox" value="35 [ LEGACY ] Madame Percy" onchange="update()">35 [ LEGACY ] Madame Percy</label>
+    </div>
+
+    <!-- กล่องคนที่มาแล้ว + ประวัติ -->
+    <div class="box">
+      <h2>คนที่มาเล่น</h2>
+
+      <div id="list"></div>
+      <p>รวม: <span id="count">0</span> คน</p>
+
+      <div class="history-controls">
+        <button onclick="saveAttendance()">SAVE</button>
+        <button onclick="clearHistory()">ล้างประวัติ</button>
+      </div>
+
+      <h3>ประวัติการบันทึก</h3>
+      <div id="history"></div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const MAX_HISTORY = 30;
+
+function toggleAll() {
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  const allChecked = [...checkboxes].every(cb => cb.checked);
+  checkboxes.forEach(cb => cb.checked = !allChecked);
+  document.getElementById('toggleBtn').textContent = allChecked ? 'ติ๊กทั้งหมด' : 'ยกเลิกทั้งหมด';
+  update();
+}
+
+function update() {
+  const checkboxes = document.querySelectorAll('input[type=checkbox]');
+  const list = document.getElementById('list');
+  const count = document.getElementById('count');
+  list.innerHTML = '';
+  checkboxes.forEach(cb => {
+    const label = cb.parentElement;
+    if (cb.checked) label.classList.add('checked');
+    else label.classList.remove('checked');
+  });
+  const checked = document.querySelectorAll('input[type=checkbox]:checked');
+  checked.forEach(c => {
+    const item = document.createElement('div');
+    item.className = 'hud-item';
+    item.textContent = c.value;
+    list.appendChild(item);
+  });
+  count.textContent = checked.length;
+}
+
+function filterNames() {
+  const filter = document.getElementById('search').value.toLowerCase();
+  document.querySelectorAll('.box label').forEach(label => {
+    label.style.display = label.textContent.toLowerCase().includes(filter) ? '' : 'none';
+  });
+}
+
+function saveAttendance() {
+  const checked = [...document.querySelectorAll('input[type=checkbox]:checked')].map(cb => cb.value);
+  if (!checked.length) return;
+  const history = JSON.parse(localStorage.getItem('attendanceHistory') || '[]');
+  history.unshift({ time: new Date().toLocaleString('th-TH'), data: checked });
+  if (history.length > MAX_HISTORY) history.pop();
+  localStorage.setItem('attendanceHistory', JSON.stringify(history));
+  renderHistory();
+}
+
+function renderHistory() {
+  const historyBox = document.getElementById('history');
+  const history = JSON.parse(localStorage.getItem('attendanceHistory') || '[]');
+  historyBox.innerHTML = '';
+  history.forEach((h, index) => {
+    const div = document.createElement('div');
+    div.className = 'history-item';
+    div.textContent = `${index+1}. ${h.time} (${h.data.length} คน)`;
+    div.onclick = () => loadHistory(index);
+    historyBox.appendChild(div);
+  });
+}
+
+function loadHistory(index) {
+  const history = JSON.parse(localStorage.getItem('attendanceHistory') || '[]');
+  const data = history[index]?.data || [];
+  document.querySelectorAll('input[type=checkbox]').forEach(cb => {
+    cb.checked = data.includes(cb.value);
+  });
+  update();
+}
+
+function clearHistory() {
+  localStorage.removeItem('attendanceHistory');
+  renderHistory();
+}
+
+renderHistory();
+</script>
+</body>
+</html>
